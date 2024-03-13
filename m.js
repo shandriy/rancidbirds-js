@@ -19,6 +19,8 @@ let camera = {
 }
 let object = [["#ffaa00", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }], ["#ffaabb", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }]];
 window.onload = function () {
+  document.body.innerHTML = "<canvas id='canvas'></canvas>";
+  document.getElementById("style").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;}";
   let canvas = document.getElementById("canvas");
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
