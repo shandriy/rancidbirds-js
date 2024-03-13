@@ -17,7 +17,7 @@ let camera = {
   fov: 90, screenDistance: window.innerWidth / 2,
   renderDistance: 1000
 }
-let object = [["#ffaa00", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }], ["#ffaabb", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }]];
+let object = [["#ffaa00", { x: 10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }], ["#ffaabb", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }]];
 window.onload = function () {
   document.body.innerHTML = "<canvas id='canvas'></canvas>";
   document.getElementById("style").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;}";
@@ -49,7 +49,7 @@ function draw(context, tBatch) {
   object[0][3].z -= frame.delta / 90;
 }
 function model(context, camera, object) {
-  let xd, yd, zd, fetch, push, bPush, cPush, tPush;
+  let xd, yd, zd, fetch, push, bPush, cPush, tPush, counter;
   let tBatch = [];
   let width = context.canvas.width / 2;
   let height = context.canvas.height / 2;
@@ -57,7 +57,6 @@ function model(context, camera, object) {
     push = [object[i][0]];
     bPush = 3;
     cPush = 3;
-    tPush = [];
     for (let j = 1; j < 4; j++) {
       fetch = object[i][j];
       xd = fetch.x - camera.x;
@@ -70,6 +69,18 @@ function model(context, camera, object) {
       if (Math.abs(xd) > width + 2 || Math.abs(yd) > height + 2) cPush--;
       if (zd <= 0) yd *= -1;
       push.push([Math.floor(width + xd), Math.floor(height - yd)]);
+    }
+    for (let j = 1; j < 4; j++) {
+      tPush = push[j];
+      counter = 0;
+      for (let k = 1; k < 4; k++) {
+        if (push[k][0] == tPush[0] && push[k][1] == tPush[1]) counter++;
+      }
+      if (counter != 1) {
+        bPush = -1;
+        cPush = -1;
+        break;
+      }
     }
     if (bPush > 0 && cPush > 0) tBatch.push(push);
   }
