@@ -17,7 +17,7 @@ let camera = {
   fov: 90, screenDistance: window.innerWidth / 2,
   renderDistance: 1000
 }
-let object = [["#ffaa00", { x: 10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }], ["#ffaabb", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }]];
+let object = [["#ffaa00", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }], ["#ffaabb", { x: -10, y: 0, z: 10 }, { x: 10, y: 0, z: 10 }, { x: 0, y: 10, z: 10 }]];
 window.onload = function () {
   document.body.innerHTML = "<canvas id='canvas'></canvas>";
   document.getElementById("style").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;}";
@@ -26,7 +26,7 @@ window.onload = function () {
   canvas.width = window.innerWidth;
   let context = canvas.getContext("2d", { alpha: false });
 
-  run(test.bind(null, context));
+  run(frameR.bind(null, context));
 }
 
 function run(func) {
@@ -37,13 +37,13 @@ function run(func) {
   window.requestAnimationFrame(run.bind(null, func));
 }
 
-function test(context) {
+function frameR(context) {
   draw(context, model(context, camera, object));
 }
 function draw(context, tBatch) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  //triangleBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
-  triangleBatch(context, tBatch);
+  //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
+  polyBatch(context, tBatch);
   //camera.z += frame.delta / 30;
   //camera.x -= frame.delta / 30;
   object[0][3].z -= frame.delta / 90;
@@ -87,14 +87,17 @@ function model(context, camera, object) {
   return tBatch;
 }
 
-function triangleBatch(context, triangleArray) {
-  for (let i = 0; i < triangleArray.length; i++) {
-    context.beginPath();
-    context.moveTo(triangleArray[i][1][0], triangleArray[i][1][1]);
-    context.lineTo(triangleArray[i][2][0], triangleArray[i][2][1]);
-    context.lineTo(triangleArray[i][3][0], triangleArray[i][3][1]);
-    context.fillStyle = triangleArray[i][0];
-    context.fill();
+function polyBatch(context, polyArray) {
+  for (let i = 0; i < polyArray.length; i++) {
+    if (polyArray[i].length >= 4) {
+      context.beginPath();
+      context.moveTo(polyArray[i][1][0], polyArray[i][1][1]);
+      for (let j = 2; j < polyArray[i].length; j++) {
+        context.lineTo(polyArray[i][j][0], polyArray[i][j][1]);
+      }
+      context.fillStyle = polyArray[i][0];
+      context.fill();
+    }
   }
 }
 
