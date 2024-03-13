@@ -101,48 +101,6 @@ function scenify(context, camera, objectArray) {
   return tBatch;
 }
 
-function model(context, camera, object) {
-  let xd, yd, zd, fetch, push, bPush, cPush, tPush, counter;
-  let tBatch = [];
-  let width = context.canvas.width / 2;
-  let height = context.canvas.height / 2;
-  for (let i = 0; i < object.length; i++) {
-    push = [object[i][0]];
-    bPush = 3;
-    cPush = 3;
-    for (let j = 1; j < object[i].length; j++) {
-      fetch = object[i][j];
-      xd = fetch.x - camera.x;
-      yd = fetch.y - camera.y;
-      zd = fetch.z - camera.z;
-      if (Math.pow(camera.renderDistance, 2) <= (xd * xd) + (yd * yd) + (zd * zd)) bPush--;
-      zd = camera.screenDistance / zd;
-      xd *= zd;
-      yd *= zd;
-      if (Math.abs(xd) > width + 2 || Math.abs(yd) > height + 2) cPush--;
-      if (zd <= 0) {
-        yd *= -1;
-        xd *= -1;
-      }
-      push.push([Math.floor(width + xd), Math.floor(height - yd)]);
-    }
-    for (let j = 1; j < object[i].length; j++) {
-      tPush = push[j];
-      counter = 0;
-      for (let k = 1; k < object[i].length; k++) {
-        if (push[k][0] == tPush[0] && push[k][1] == tPush[1]) counter++;
-      }
-      if (counter != 1) {
-        bPush = -1;
-        cPush = -1;
-        break;
-      }
-    }
-    if (bPush > 0 && cPush > 0) tBatch.push(push);
-  }
-  return tBatch;
-}
-
 function polyBatch(context, polyArray) {
   for (let i = 0; i < polyArray.length; i++) {
     if (polyArray[i].length >= 4) {
