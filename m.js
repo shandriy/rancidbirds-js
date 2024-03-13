@@ -41,13 +41,14 @@ function run(func) {
 function frameR(context) {
   draw(context, scenify(context, camera, [{ model: object, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } }]));
 }
+
 function draw(context, tBatch) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
   polyBatch(context, tBatch);
   //camera.z += frame.delta / 30;
-  camera.x += frame.delta / 120;
-  object[0][3].z -= frame.delta / 90;
+  camera.z += frame.delta / 120;
+  //object[0][3].z -= frame.delta / 90;
 }
 
 function scenify(context, camera, objectArray) {
