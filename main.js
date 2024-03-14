@@ -1,11 +1,17 @@
 "use strict";
 
+/*
+Konstantin Edunov
+2024
+CSE MMA ORG
+*/
+
 let frame = {
   start: performance.now(),
   delta: 0
 };
 let camera = {
-  x: 0, y: 0, z: -20,
+  x: 20, y: 0, z: -20,
   yaw: 0, pitch: 0, roll: 0,
   fov: 90, screenDistance: window.innerWidth / 2,
   renderDistance: 1000
@@ -31,7 +37,7 @@ window.addEventListener("resize", function () {
 
 window.onload = function () {
   document.body.innerHTML = "<canvas id='canvas'></canvas>";
-  document.getElementById("s").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;}";
+  document.getElementById("s").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges}";
   let canvas = document.getElementById("canvas");
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
@@ -56,17 +62,45 @@ function draw(context, tBatch) {
   //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
   polyBatch(context, tBatch);
   //camera.z += frame.delta / 30;
-  camera.x += frame.delta / 120;
+  //camera.x += frame.delta / 120;
   //object[0][3].z -= frame.delta / 90;
 }
 
 function scenify(context, camera, objectArray) {
   let xd, yd, zd, xt, yt, zt, zb;
   let fetch, counter, object;
-  let push, bPush, cPush, tPush;
+  let push, bPush, cPush, tPush, vPush, zPush;
+  let sorter;
   let tBatch = [];
   const width = context.canvas.width / 2;
   const height = context.canvas.height / 2;
+  function sort(array) {
+    let stack = [];
+    let end, start, pivotIndex, pivotValue;
+    stack.push(0);
+    stack.push(array.length - 1);
+    while (stack[stack.length - 1] >= 0) {
+      end = stack.pop();
+      start = stack.pop();
+      pivotValue = array[end];
+      pivotIndex = start;
+      for (let i = start; i < end; i++) {
+        if (array[i] < pivotValue) {
+          [array[i], array[pivotIndex]] = [array[pivotIndex], array[i]];
+          pivotIndex++;
+        }
+      }
+      [array[pivotIndex], array[end]] = [array[end], array[pivotIndex]];
+      if (pivotIndex - 1 > start) {
+        stack.push(start);
+        stack.push(pivotIndex - 1);
+      }
+      if (pivotIndex + 1 < end) {
+        stack.push(pivotIndex + 1);
+        stack.push(end);
+      }
+    }
+  }
   for (let c = 0; c < objectArray.length; c++) {
     object = objectArray[c].transform;
     xt = object.x;
@@ -106,9 +140,21 @@ function scenify(context, camera, objectArray) {
           break;
         }
       }
+      vPush = 0;
+      zPush = 0;
+      for (let j = 1; j < push.length; j++) {
+        vPush += push[j][2];
+        zPush++;
+      }
+      push[1][2] = vPush / zPush;
       if (bPush > 0 && cPush > 0) tBatch.push(push);
     }
   }
+  push = [];
+  for (let c = 0; c < tBatch.length; c++) {
+    push.push([tBatch[c][1][2]]);
+  }
+  sort(push);
   return tBatch;
 }
 
