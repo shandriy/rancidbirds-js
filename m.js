@@ -1,4 +1,4 @@
-"use strict"; 
+"use strict";
 
 let frame = {
   start: performance.now(),
@@ -11,7 +11,12 @@ let camera = {
   renderDistance: 1000
 }
 let object = [["#ffaa00", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: -10, y: 10, z: 10 }]];
-let cube = [];
+let cube = [["#ffaa00", { x: -10, y: -10, z: 20 }, { x: 10, y: -10, z: 20 }, { x: 10, y: 10, z: 20 }, { x: -10, y: 10, z: 20 }],
+["#88aabb", { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: 10, y: 10, z: 20 }, { x: 10, y: -10, z: 20 }],
+["#44aaee", { x: -10, y: -10, z: 10 }, { x: -10, y: 10, z: 10 }, { x: -10, y: 10, z: 20 }, { x: -10, y: -10, z: 20 }],
+["#eeaa44", { x: -10, y: 10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: 10, y: 10, z: 20 }, { x: -10, y: 10, z: 20 }],
+["#bbaa88", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: -10, z: 20 }, { x: -10, y: -10, z: 20 }],
+["#00aaff", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: -10, y: 10, z: 10 }]];
 
 function refreshFVSD() {
   camera.screenDistance = Math.round(1 / (Math.tan(camera.fov / 114.5915) / (window.innerWidth / 2)));
@@ -43,7 +48,7 @@ function run(func) {
 }
 
 function frameR(context) {
-  draw(context, scenify(context, camera, [{ model: object, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } }]));
+  draw(context, scenify(context, camera, [{ model: cube, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } }]));
 }
 
 function draw(context, tBatch) {
@@ -51,17 +56,17 @@ function draw(context, tBatch) {
   //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
   polyBatch(context, tBatch);
   //camera.z += frame.delta / 30;
-  camera.z += frame.delta / 120;
+  camera.x += frame.delta / 120;
   //object[0][3].z -= frame.delta / 90;
 }
 
 function scenify(context, camera, objectArray) {
-  let xd, yd, zd, xt, yt, zt;
+  let xd, yd, zd, xt, yt, zt, zb;
   let fetch, counter, object;
   let push, bPush, cPush, tPush;
   let tBatch = [];
-  let width = context.canvas.width / 2;
-  let height = context.canvas.height / 2;
+  const width = context.canvas.width / 2;
+  const height = context.canvas.height / 2;
   for (let c = 0; c < objectArray.length; c++) {
     object = objectArray[c].transform;
     xt = object.x;
@@ -77,7 +82,8 @@ function scenify(context, camera, objectArray) {
         xd = fetch.x + xt - camera.x;
         yd = fetch.y + yt - camera.y;
         zd = fetch.z + zt - camera.z;
-        if (Math.pow(camera.renderDistance, 2) <= (xd * xd) + (yd * yd) + (zd * zd)) bPush--;
+        zb = (xd * xd) + (yd * yd) + (zd * zd);
+        if (Math.pow(camera.renderDistance, 2) <= zb) bPush--;
         zd = camera.screenDistance / zd;
         xd *= zd;
         yd *= zd;
@@ -86,7 +92,7 @@ function scenify(context, camera, objectArray) {
           yd *= -1;
           xd *= -1;
         }
-        push.push([Math.floor(width + xd), Math.floor(height - yd)]);
+        push.push([Math.floor(width + xd), Math.floor(height - yd), zb]);
       }
       for (let j = 1; j < object[i].length; j++) {
         tPush = push[j];
@@ -107,6 +113,33 @@ function scenify(context, camera, objectArray) {
 }
 
 function polyBatch(context, polyArray) {
+  /*function sort(array) {
+    let stack = [];
+    let end, start, pivotIndex, pivotValue;
+    stack.push(0);
+    stack.push(array.length - 1);
+    while (stack[stack.length - 1] >= 0) {
+      end = stack.pop();
+      start = stack.pop();
+      pivotValue = array[end];
+      pivotIndex = start;
+      for (let i = start; i < end; i++) {
+        if (array[i] < pivotValue) {
+          [array[i], array[pivotIndex]] = [array[pivotIndex], array[i]];
+          pivotIndex++;
+        }
+      }
+      [array[pivotIndex], array[end]] = [array[end], array[pivotIndex]]
+      if (pivotIndex - 1 > start) {
+        stack.push(start);
+        stack.push(pivotIndex - 1);
+      }
+      if (pivotIndex + 1 < end) {
+        stack.push(pivotIndex + 1);
+        stack.push(end);
+      }
+    }
+  }*/
   for (let i = 0; i < polyArray.length; i++) {
     if (polyArray[i].length >= 4) {
       context.beginPath();
