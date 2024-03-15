@@ -6,5 +6,6 @@
 *.dae text
 *.png binary
 *.fbx binary
+lang/* text
 README text
 LICENSE text
