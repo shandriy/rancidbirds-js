@@ -36,6 +36,7 @@ window.addEventListener("resize", function () {
 })
 
 window.onload = function () {
+  setLangPrefs();
   document.body.innerHTML = "<canvas id='canvas'></canvas>";
   document.getElementById("s").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges}";
   let canvas = document.getElementById("canvas");
