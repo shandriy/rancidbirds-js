@@ -4,7 +4,7 @@
 
 ## СДЕЛАТЬ
 
-* "Z-Buffer"
+* Добавите "Z-Buffer"
 * Добавите матрицу вращения
 * Добавить текстуры
 * FBX / COLLADA DAE 3д модели
@@ -13,6 +13,6 @@
 
 ## СДЕЛАНО
 
-* Frame requests
-* Basic 3d to 2d projection
-* "Painter's Algorithm"
+* FPS цикл
+* 2д-3д проекция
+* Добавил "Painter's Algorithm"
