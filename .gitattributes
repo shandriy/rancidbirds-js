@@ -1,1 +1,6 @@
 * text=auto
+*.html text diff=html
+*.js text
+*.svg text
+*.png binary
+README text

@@ -125,7 +125,6 @@ function scenify(context, camera, objectArray) {
   tBatch = tBatch.sort(function(a, b) {
     return b[1][2] - a[1][2];
   });
-  console.log(tBatch)
   return tBatch;
 }
 
