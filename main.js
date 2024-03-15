@@ -130,33 +130,6 @@ function scenify(context, camera, objectArray) {
 }
 
 function polyBatch(context, polyArray) {
-  /*function sort(array) {
-    let stack = [];
-    let end, start, pivotIndex, pivotValue;
-    stack.push(0);
-    stack.push(array.length - 1);
-    while (stack[stack.length - 1] >= 0) {
-      end = stack.pop();
-      start = stack.pop();
-      pivotValue = array[end];
-      pivotIndex = start;
-      for (let i = start; i < end; i++) {
-        if (array[i] < pivotValue) {
-          [array[i], array[pivotIndex]] = [array[pivotIndex], array[i]];
-          pivotIndex++;
-        }
-      }
-      [array[pivotIndex], array[end]] = [array[end], array[pivotIndex]]
-      if (pivotIndex - 1 > start) {
-        stack.push(start);
-        stack.push(pivotIndex - 1);
-      }
-      if (pivotIndex + 1 < end) {
-        stack.push(pivotIndex + 1);
-        stack.push(end);
-      }
-    }
-  }*/
   for (let i = 0; i < polyArray.length; i++) {
     if (polyArray[i].length >= 4) {
       context.beginPath();
