@@ -6,6 +6,11 @@
 !.vscode/*.code-snippets
 .history/
 *.vsix
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.Trash-*
+*~
+[._]*.un~
 temp/
 [Cc]heck[Ll]ist
 [Cc]heck[Ll]ist.md
