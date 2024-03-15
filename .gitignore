@@ -8,5 +8,5 @@
 *.vsix
 temp/
 [Cc]heck[Ll]ist
-!.md
+[Cc]heck[Ll]ist.md
 *.txt
