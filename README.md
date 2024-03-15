@@ -4,7 +4,7 @@ Rancid Birds: You are a bird bred in a massive lab by scientists trying to fuel 
 
 ## TODO
 
-* Implement painter's algorithm or a Z-buffer
+* Add a Z-buffer
 * Fix rendering of objects behind camera
 * Implement a rotation matrix
 * Project textures
@@ -19,3 +19,4 @@ Rancid Birds: You are a bird bred in a massive lab by scientists trying to fuel 
 
 * Frame requests
 * Basic 3d to 2d projection
+* Basic painter's algorithm
