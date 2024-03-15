@@ -11,7 +11,7 @@ let frame = {
   delta: 0
 };
 let camera = {
-  x: 20, y: 0, z: -20,
+  x: 0, y: 0, z: -20,
   yaw: 0, pitch: 0, roll: 0,
   fov: 90, screenDistance: window.innerWidth / 2,
   renderDistance: 1000
@@ -62,7 +62,7 @@ function draw(context, tBatch) {
   //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
   polyBatch(context, tBatch);
   //camera.z += frame.delta / 30;
-  //camera.x += frame.delta / 120;
+  camera.y += frame.delta / 120;
   //object[0][3].z -= frame.delta / 90;
 }
 
@@ -70,37 +70,9 @@ function scenify(context, camera, objectArray) {
   let xd, yd, zd, xt, yt, zt, zb;
   let fetch, counter, object;
   let push, bPush, cPush, tPush, vPush, zPush;
-  let sorter;
   let tBatch = [];
   const width = context.canvas.width / 2;
   const height = context.canvas.height / 2;
-  function sort(array) {
-    let stack = [];
-    let end, start, pivotIndex, pivotValue;
-    stack.push(0);
-    stack.push(array.length - 1);
-    while (stack[stack.length - 1] >= 0) {
-      end = stack.pop();
-      start = stack.pop();
-      pivotValue = array[end];
-      pivotIndex = start;
-      for (let i = start; i < end; i++) {
-        if (array[i] < pivotValue) {
-          [array[i], array[pivotIndex]] = [array[pivotIndex], array[i]];
-          pivotIndex++;
-        }
-      }
-      [array[pivotIndex], array[end]] = [array[end], array[pivotIndex]];
-      if (pivotIndex - 1 > start) {
-        stack.push(start);
-        stack.push(pivotIndex - 1);
-      }
-      if (pivotIndex + 1 < end) {
-        stack.push(pivotIndex + 1);
-        stack.push(end);
-      }
-    }
-  }
   for (let c = 0; c < objectArray.length; c++) {
     object = objectArray[c].transform;
     xt = object.x;
@@ -150,11 +122,10 @@ function scenify(context, camera, objectArray) {
       if (bPush > 0 && cPush > 0) tBatch.push(push);
     }
   }
-  push = [];
-  for (let c = 0; c < tBatch.length; c++) {
-    push.push([tBatch[c][1][2]]);
-  }
-  sort(push);
+  tBatch = tBatch.sort(function(a, b) {
+    return b[1][2] - a[1][2];
+  });
+  console.log(tBatch)
   return tBatch;
 }
 
