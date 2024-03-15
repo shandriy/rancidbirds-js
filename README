@@ -1,0 +1,24 @@
+||======================||
+|| PROJECT RANCID BIRDS ||
+||======================||
+
+Rancid-Birds: You are a bird bred in a massive lab by scientists trying to fuel their invention; Birds are forced through a difficult dungeon to train, and led to believe that at the end of the dungeon is an escape, but instead, they are sacrificed
+
+TODO :
+
+0. Add a Z-buffer
+1. Fix rendering of objects behind camera
+2. Implement a rotation matrix
+3. Project textures
+4. Create an FBX/COLLADA.dae converter (optional)
+5. Create assets
+6. Create a keyboard and mouse input processor
+7. Game loop
+8. Level design
+9+ ???
+
+DONE :
+
+0. Frame requests
+1. Basic 3d to 2d projection
+2. Basic painter's algorithm
