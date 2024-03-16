@@ -1,16 +1,24 @@
 "use strict";
 
 function run(func) {
+  // func calls frameR()
   frame.delta = performance.now() - frame.start;
   frame.start += frame.delta;
   func.call();
+
+  // frame loop (~60 fps)
   window.requestAnimationFrame(run.bind(null, func));
 }
 function frameR(context) {
+  // find process input lower in this file
   processInput();
+
+  // find draw in render.js, and scenify in project.js (project as in projection)
   draw(context, scenifyTriangle(context, camera, [{ model: cube, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } }]));
 }
 
+
+/// input handling below
 document.addEventListener("mousemove", mouseMoved);
 document.addEventListener("keydown", keyPressed, false);
 document.addEventListener("keyup", keyReleased, false);
@@ -70,8 +78,12 @@ bodyElement.addEventListener("click", async () => {
 });
 
 function refreshFVSD() {
+  /// FVSD: FoV Screen Distance
+  /// changes projection distance based on FOV
   camera.screenDistance = Math.round(1 / (Math.tan(camera.fov / 114.5915) / (window.innerWidth / 2)));
 }
 
 /// end
+
+/// this is for detecting when a script loads
 lc++;

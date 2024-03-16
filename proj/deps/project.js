@@ -1,5 +1,6 @@
 "use strict";
 
+/// figure this out yourself. I don't want to think about the projection script anymore
 function scenify(context, camera, objectArray) {
   let xd, yd, zd, xt, yt, zt, zb, xc, zc;
   let fetch, counter, object;
