@@ -44,7 +44,9 @@ window.onload = function () {
     } else {
       setLangPrefs();
       document.body.innerHTML = `<canvas id="canvas"></canvas><div style="${divStyle}"></div>`;
-      document.getElementsByTagName("style")[0].innerHTML = `html,body,canvas{${normalStyle}}`;
+      let styleTag = document.createElement("style");
+      styleTag.innerHTML = `html,body,canvas{${normalStyle}}`;
+      document.getElementsByTagName("head")[0].appendChild(styleTag);
       let canvas = document.getElementById("canvas");
       canvas.height = window.innerHeight;
       canvas.width = window.innerWidth;
