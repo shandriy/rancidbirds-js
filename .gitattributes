@@ -1,0 +1,12 @@
+* text=auto
+*.htm text diff=html
+*.html text diff=html
+*.js text
+*.svg text
+*.dae text
+*.png binary
+*.fbx binary
+lang/* text
+asst/* binary
+README text
+LICENSE text
