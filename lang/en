@@ -8,13 +8,11 @@ TODO :
 
 0. Add a Z-buffer
 1. Fix rendering of objects behind camera
-2. Implement a rotation matrix
-3. Project textures
-4. Create an FBX/COLLADA.dae converter (optional)
-5. Create assets
-6. Create a keyboard and mouse input processor
-7. Game loop
-8. Level design
+2. Project textures
+3. Create an FBX/COLLADA.dae converter (optional)
+4. Create assets
+5. Game loop
+6. Level design
 9+ ???
 
 DONE :
@@ -22,3 +20,5 @@ DONE :
 0. Frame requests
 1. Basic 3d to 2d projection
 2. Basic painter's algorithm
+3. Implement a rotation matrix
+4. Create a keyboard and mouse input processor
