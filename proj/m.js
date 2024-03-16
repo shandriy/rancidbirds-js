@@ -34,7 +34,7 @@ window.onload = function () {
   tempTag.innerHTML = "RANCID BIRDS";
   document.getElementsByTagName("head")[0].appendChild(tempTag);
   lc = 0;
-  let dependencies = ["asst/models/cube", "proj/deps/project", "proj/deps/render", "proj/deps/exec", "lang/-locket"];
+  let dependencies = ["asst/models/triangleCube", "proj/deps/project", "proj/deps/render", "proj/deps/exec", "lang/-locket"];
   let scriptTag;
   for (let i = 0; i < dependencies.length; i++) {
     scriptTag = document.createElement("script");

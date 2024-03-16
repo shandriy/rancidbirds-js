@@ -8,7 +8,7 @@ function run(func) {
 }
 function frameR(context) {
   processInput();
-  draw(context, scenify(context, camera, [{ model: cube, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } }]));
+  draw(context, scenifyTriangle(context, camera, [{ model: cube, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } }]));
 }
 
 document.addEventListener("mousemove", mouseMoved);

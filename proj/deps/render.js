@@ -45,5 +45,30 @@ function polyBatch(context, polyArray) {
     }
   }
 }
+
+function triangleBatchPixel(context, triangleArray) {
+  let width = context.canvas.width;
+  let height = context.canvas.height;
+  let imgData = context.createImageData(width, height);
+  let rgb;
+  for (let i = 0; i < triangleArray.length; i++) {
+    rgb = triangleArray[i][0].split('').map((e, i, a) => a[i] + (a[i + 1] ?? '')).slice(0, -1);
+    for (let j = 0; j < 3; j++) {
+      rgb[j] = parseInt(rgb[j], 16);
+    }
+    rgb.push(255);
+    /*if (polyArray[i].length >= 4) {
+      context.beginPath();
+      context.moveTo(polyArray[i][1][0], polyArray[i][1][1]);
+      for (let j = 2; j < polyArray[i].length; j++) {
+        context.lineTo(polyArray[i][j][0], polyArray[i][j][1]);
+      }
+      context.fillStyle = polyArray[i][0];
+      context.fill();
+    }*/
+  }
+  context.putImageData(imgData, 0, 0);
+}
+
 /// end
 lc++;
