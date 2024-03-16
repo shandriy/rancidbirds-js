@@ -7,9 +7,11 @@ function setLangPrefs() {
       // do nothing. These translations will only matter later
       break;
     case "RU":
-      document.getElementById("t").innerHTML = "ПРОГОРКЛЫЕ-ПТИЦЫ";
+      document.getElementsByTagName("title")[0].innerHTML = "ПРОГОРКЛЫЕ-ПТИЦЫ";
       break;
     default:
       break;
   }
 }
+
+lc++;

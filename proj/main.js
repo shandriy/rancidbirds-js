@@ -32,9 +32,8 @@ window.addEventListener("resize", function () {
 
 let lc;
 window.onload = function () {
-  setLangPrefs();
   lc = 0;
-  let dependencies = ["asst/models/cube", "proj/deps/project", "proj/deps/render", "proj/deps/exec"];
+  let dependencies = ["asst/models/cube", "proj/deps/project", "proj/deps/render", "proj/deps/exec", "lang/-locket"];
   let scriptTag;
   for (let i = 0; i < dependencies.length; i++) {
     scriptTag = document.createElement("script");
@@ -45,8 +44,9 @@ window.onload = function () {
     if (lc < dependencies.length) {
       window.setTimeout(checkLoadStatus, 100);
     } else {
+      setLangPrefs();
       document.body.innerHTML = "<canvas id='canvas'></canvas>";
-      document.getElementById("s").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges}";
+      document.getElementsByTagName("style")[0].innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges}";
       let canvas = document.getElementById("canvas");
       canvas.height = window.innerHeight;
       canvas.width = window.innerWidth;
