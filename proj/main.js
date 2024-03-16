@@ -13,15 +13,11 @@ let frame = {
 
 let camera = {
   x: 0, y: 0, z: -20,
-  yaw: 0, pitch: 0, roll: 0,
+  yaw: 0, pitch: 0, roll: 0, yawShiftX: 0, yawShiftZ: 0,
   fov: 90, screenDistance: window.innerWidth / 2,
   renderDistance: 300
 }
 let object = [["#ffaa00", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: -10, y: 10, z: 10 }]];
-
-function refreshFVSD() {
-  camera.screenDistance = Math.round(1 / (Math.tan(camera.fov / 114.5915) / (window.innerWidth / 2)));
-}
 
 window.addEventListener("resize", function () {
   let canvas = document.getElementById("canvas");
@@ -31,6 +27,8 @@ window.addEventListener("resize", function () {
 })
 
 let lc;
+let divStyle = "background-color:black;color:white;position:fixed;top:70vh;right:10vw;width:80vw;"
+let normalStyle = "overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges;";
 window.onload = function () {
   lc = 0;
   let dependencies = ["asst/models/cube", "proj/deps/project", "proj/deps/render", "proj/deps/exec", "lang/-locket"];
@@ -45,8 +43,8 @@ window.onload = function () {
       window.setTimeout(checkLoadStatus, 100);
     } else {
       setLangPrefs();
-      document.body.innerHTML = "<canvas id='canvas'></canvas>";
-      document.getElementsByTagName("style")[0].innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges}";
+      document.body.innerHTML = `<canvas id="canvas"></canvas><div style="${divStyle}"></div>`;
+      document.getElementsByTagName("style")[0].innerHTML = `html,body,canvas{${normalStyle}}`;
       let canvas = document.getElementById("canvas");
       canvas.height = window.innerHeight;
       canvas.width = window.innerWidth;

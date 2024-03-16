@@ -1,5 +1,6 @@
 "use strict";
 
+let talking = 0;
 function draw(context, tBatch) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   context.beginPath();
@@ -11,6 +12,24 @@ function draw(context, tBatch) {
   //camera.z += frame.delta / 30;
   //camera.y += frame.delta / 120;
   //object[0][3].z -= frame.delta / 90;
+  if (keyDown(" ")) {
+    talking += frame.delta / 8;
+  }
+  else {
+    talking -= frame.delta / 8;
+  }
+  if (talking > 20) {
+    talking = 20;
+  }
+  if (talking < 0) {
+    talking = 0;
+  }
+  if (talking == 0) {
+    document.getElementsByTagName("div")[0].style = `${divStyle}display:none;`;
+  }
+  else {
+    document.getElementsByTagName("div")[0].style = `${divStyle}height:${talking}vh;`;
+  }
 }
 
 function polyBatch(context, polyArray) {
@@ -26,4 +45,5 @@ function polyBatch(context, polyArray) {
     }
   }
 }
+/// end
 lc++;
