@@ -30,6 +30,9 @@ let lc;
 let divStyle = "background-color:black;color:white;position:fixed;top:70vh;right:10vw;width:80vw;"
 let normalStyle = "overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges;";
 window.onload = function () {
+  let tempTag = document.createElement("title");
+  tempTag.innerHTML = "RANCID BIRDS";
+  document.getElementsByTagName("head")[0].appendChild(tempTag);
   lc = 0;
   let dependencies = ["asst/models/cube", "proj/deps/project", "proj/deps/render", "proj/deps/exec", "lang/-locket"];
   let scriptTag;
@@ -44,9 +47,9 @@ window.onload = function () {
     } else {
       setLangPrefs();
       document.body.innerHTML = `<canvas id="canvas"></canvas><div style="${divStyle}"></div>`;
-      let styleTag = document.createElement("style");
-      styleTag.innerHTML = `html,body,canvas{${normalStyle}}`;
-      document.getElementsByTagName("head")[0].appendChild(styleTag);
+      tempTag = document.createElement("style");
+      tempTag.innerHTML = `html,body,canvas{${normalStyle}}`;
+      document.getElementsByTagName("head")[0].appendChild(tempTag);
       let canvas = document.getElementById("canvas");
       canvas.height = window.innerHeight;
       canvas.width = window.innerWidth;
@@ -57,3 +60,5 @@ window.onload = function () {
   }
   checkLoadStatus();
 }
+
+/// end
