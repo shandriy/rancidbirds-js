@@ -31,8 +31,11 @@ function keyReleased(event) {
 }
 
 function mouseMoved(event) {
-  camera.yaw += event.movementX;
+  camera.yaw -= event.movementX;
   camera.yaw %= 360;
+  let yawRadians = camera.yaw / 114.5915;
+  camera.yawShiftS = Math.sin(yawRadians);
+  camera.yawShiftC = Math.cos(yawRadians);
 }
 
 function keyDown(key) {

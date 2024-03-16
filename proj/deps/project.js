@@ -1,7 +1,7 @@
 "use strict";
 
 function scenify(context, camera, objectArray) {
-  let xd, yd, zd, xt, yt, zt, zb;
+  let xd, yd, zd, xt, yt, zt, zb, xc, zc;
   let fetch, counter, object;
   let push, bPush, cPush, tPush, vPush, zPush;
   let tBatch = [];
@@ -19,10 +19,14 @@ function scenify(context, camera, objectArray) {
       cPush = bPush;
       for (let j = 1; j < object[i].length; j++) {
         fetch = object[i][j];
-        xd = fetch.x + xt - camera.x + camera.yawShiftX;
+        xd = fetch.x + xt - camera.x;
         yd = fetch.y + yt - camera.y;
-        zd = fetch.z + zt - camera.z + camera.yawShiftZ;
+        zd = fetch.z + zt - camera.z;
         zb = (xd * xd) + (yd * yd) + (zd * zd);
+        xc = zd * camera.yawShiftS + xd * camera.yawShiftC;
+        zc = zd * camera.yawShiftC - xd * camera.yawShiftS;
+        xd = xc;
+        zd = zc;
         if (Math.pow(camera.renderDistance, 2) <= zb) bPush--;
         zd = camera.screenDistance / zd;
         xd *= zd;
