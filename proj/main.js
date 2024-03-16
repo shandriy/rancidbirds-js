@@ -15,7 +15,7 @@ let camera = {
   x: 0, y: 0, z: -20,
   yaw: 0, pitch: 0, roll: 0,
   fov: 90, screenDistance: window.innerWidth / 2,
-  renderDistance: 1000
+  renderDistance: 300
 }
 let object = [["#ffaa00", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: -10, y: 10, z: 10 }]];
 

@@ -8,6 +8,44 @@ function run(func) {
 }
 
 function frameR(context) {
+  processInput();
   draw(context, scenify(context, camera, [{ model: cube, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } }]));
 }
 lc++;
+
+document.addEventListener("keydown", keyPressed, false);
+document.addEventListener("keyup", keyReleased, false);
+let keyArray = [];
+let acceptedKeys = ["w", "a", "s", "d", " "]
+function keyPressed(event) {
+  let key = event.key.toString().toLowerCase();
+  if (!keyArray.includes(key) && acceptedKeys.includes(key)) {
+    keyArray.push(key);
+  }
+}
+
+function keyReleased(event) {
+  let key = event.key.toString().toLowerCase();
+  if (keyArray.includes(key)) {
+    keyArray.splice(keyArray.indexOf(key), 1);
+  }
+}
+
+function keyDown(key) {
+  return keyArray.includes(key);
+}
+
+function processInput() {
+  if (keyDown("w")) {
+    camera.z += frame.delta / 30;
+  }
+  if (keyDown("a")) {
+    camera.x -= frame.delta / 30;
+  }
+  if (keyDown("s")) {
+    camera.z -= frame.delta / 30;
+  }
+  if (keyDown("d")) {
+    camera.x += frame.delta / 30;
+  }
+}

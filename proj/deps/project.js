@@ -27,7 +27,7 @@ function scenify(context, camera, objectArray) {
         zd = camera.screenDistance / zd;
         xd *= zd;
         yd *= zd;
-        if (Math.abs(xd) > width + 2 || Math.abs(yd) > height + 2) cPush--;
+        if (Math.abs(xd) > width + 2 && Math.abs(yd) > height + 2) cPush--;
         if (zd <= 0) {
           yd *= -1;
           xd *= -1;

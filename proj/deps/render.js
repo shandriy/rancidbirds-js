@@ -9,7 +9,7 @@ function draw(context, tBatch) {
   //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
   polyBatch(context, tBatch);
   //camera.z += frame.delta / 30;
-  camera.y += frame.delta / 120;
+  //camera.y += frame.delta / 120;
   //object[0][3].z -= frame.delta / 90;
 }
 
