@@ -31,9 +31,9 @@ function keyReleased(event) {
 }
 
 function mouseMoved(event) {
-  camera.yaw -= event.movementX;
+  camera.yaw -= event.movementX / 3;
   camera.yaw %= 360;
-  let yawRadians = camera.yaw / 114.5915;
+  let yawRadians = camera.yaw / 57.2957;
   camera.yawShiftS = Math.sin(yawRadians);
   camera.yawShiftC = Math.cos(yawRadians);
 }
@@ -44,17 +44,25 @@ function keyDown(key) {
 
 function processInput() {
   if (keyDown("w")) {
-    camera.z += frame.delta / 30;
+    move2d(1, 0);
   }
   if (keyDown("a")) {
-    camera.x -= frame.delta / 30;
+    move2d(1, 270);
   }
   if (keyDown("s")) {
-    camera.z -= frame.delta / 30;
+    move2d(1, 180);
   }
   if (keyDown("d")) {
-    camera.x += frame.delta / 30;
+    move2d(1, 90);
   }
+}
+
+function move2d(amount, angle) {
+  let yawRadians = ((angle - camera.yaw) % 360) / 57.2957;
+  let multiplier = amount * frame.delta / 14;
+  console.log(Math.sin(yawRadians));
+  camera.z += Math.cos(yawRadians) * multiplier;
+  camera.x += Math.sin(yawRadians) * multiplier;
 }
 
 let bodyElement = document.body;

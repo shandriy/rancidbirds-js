@@ -13,7 +13,7 @@ let frame = {
 
 let camera = {
   x: 0, y: 0, z: -20,
-  yaw: 0, pitch: 0, roll: 0, yawShiftS: 0, yawShiftC: 0,
+  yaw: 0, pitch: 0, roll: 0, yawShiftS: 0, yawShiftC: 1,
   fov: 90, screenDistance: window.innerWidth / 2,
   renderDistance: 300
 }
