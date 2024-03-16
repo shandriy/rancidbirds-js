@@ -60,7 +60,6 @@ function processInput() {
 function move2d(amount, angle) {
   let yawRadians = ((angle - camera.yaw) % 360) / 57.2957;
   let multiplier = amount * frame.delta / 14;
-  console.log(Math.sin(yawRadians));
   camera.z += Math.cos(yawRadians) * multiplier;
   camera.x += Math.sin(yawRadians) * multiplier;
 }
