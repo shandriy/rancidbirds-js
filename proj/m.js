@@ -1,9 +1,9 @@
 "use strict";
 
 /*
-Konstantin Edunov
-2024
-CSE MMA ORG
+==============
+Konstantin Edunov, 2024
+==============
 */
 
 let frame = {
