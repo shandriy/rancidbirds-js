@@ -1,2 +1,17 @@
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
 build/
+.build/
+.history/
+*.vsix
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.Trash-*
+*~
+[._]*.un~
 temp/
+[Cc]heck[Ll]ist
+[Cc]heck[Ll]ist.md
+*.txt
