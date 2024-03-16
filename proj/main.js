@@ -17,12 +17,6 @@ let camera = {
   renderDistance: 1000
 }
 let object = [["#ffaa00", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: -10, y: 10, z: 10 }]];
-let cube = [["#ffaa00", { x: -10, y: -10, z: 20 }, { x: 10, y: -10, z: 20 }, { x: 10, y: 10, z: 20 }, { x: -10, y: 10, z: 20 }],
-["#88aabb", { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: 10, y: 10, z: 20 }, { x: 10, y: -10, z: 20 }],
-["#44aaee", { x: -10, y: -10, z: 10 }, { x: -10, y: 10, z: 10 }, { x: -10, y: 10, z: 20 }, { x: -10, y: -10, z: 20 }],
-["#eeaa44", { x: -10, y: 10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: 10, y: 10, z: 20 }, { x: -10, y: 10, z: 20 }],
-["#bbaa88", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: -10, z: 20 }, { x: -10, y: -10, z: 20 }],
-["#00aaff", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, { x: 10, y: 10, z: 10 }, { x: -10, y: 10, z: 10 }]];
 
 function refreshFVSD() {
   camera.screenDistance = Math.round(1 / (Math.tan(camera.fov / 114.5915) / (window.innerWidth / 2)));
@@ -35,16 +29,33 @@ window.addEventListener("resize", function () {
   refreshFVSD();
 })
 
+let loadedCount;
 window.onload = function () {
   setLangPrefs();
-  document.body.innerHTML = "<canvas id='canvas'></canvas>";
-  document.getElementById("s").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges}";
-  let canvas = document.getElementById("canvas");
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
-  let context = canvas.getContext("2d", { alpha: false });
+  loadedCount = 0;
+  let dependencies = ["asst/models/cube.js"];
+  let scriptTag;
+  for (let i = 0; i < dependencies.length; i++)
+  {
+    scriptTag = document.createElement("script");
+    scriptTag.setAttribute("src", `../${dependencies[i]}`);
+    document.getElementsByTagName("head")[0].appendChild(scriptTag);
+  }
+  function checkLoadStatus() {
+    if(loadedCount < dependencies.length) {
+      window.setTimeout(checkLoadStatus, 100);
+    } else {
+      document.body.innerHTML = "<canvas id='canvas'></canvas>";
+      document.getElementById("s").innerHTML = "html,body,canvas{overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges}";
+      let canvas = document.getElementById("canvas");
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      let context = canvas.getContext("2d", { alpha: false });
 
-  run(frameR.bind(null, context));
+      run(frameR.bind(null, context));
+    }
+  }
+  checkLoadStatus();
 }
 
 function run(func) {

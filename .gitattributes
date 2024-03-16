@@ -7,5 +7,6 @@
 *.png binary
 *.fbx binary
 lang/* text
+asst/* binary
 README text
 LICENSE text
