@@ -51,7 +51,7 @@ function triangleBatchPixel(context, triangleArray, camera) {
   let height = context.canvas.height;
   let imgData = new Uint8ClampedArray(height * width * 4);
   let zBuffer = new Array(height * width);
-  let rgb, yIndexer, xAvg, yAvg;
+  let rgb, yIndexer, sortedByX, xAvg, yAvg;
   for (let i = 0; i < triangleArray.length; i++) {
     rgb = [];
     rgb.length = 0;
@@ -62,17 +62,31 @@ function triangleBatchPixel(context, triangleArray, camera) {
     rgb.length = 3;
     rgb.push(255);
     yIndexer = [];
+    sortedByX = [];
     for (let j = 1; j < 4; j++) {
       yIndexer.push(triangleArray[i][j]);
+    }
+    for (let j = 1; j < 4; j++) {
+      sortedByX.push(triangleArray[i][j]);
     }
     yIndexer = yIndexer.sort(function (a, b) {
       return a[1] - b[1];
     });
+    sortedByX = sortedByX.sort(function (a, b) {
+      return b[0] - a[0];
+    });
     let tri, slope1, slope2, is1, currentX1, currentX2, inCycle;
-    function inForLoop(y, x) {
+    function inForLoop(y, x, sortedByX) {
+      let subX;
+      x - sortedByX[1][0] < 0 ? subX = 0 : subX = 1;
+      xAvg = (x - sortedByX[subX][0]) / (sortedByX[subX + 1][0] - sortedByX[subX][0]);
+      xAvg = xAvg * tri[subX + 1][2] + (1 - xAvg) * tri[subX][2];
+      yAvg = Math.abs(xAvg) + Math.abs(yAvg);
+
+      //yAvg = yAvg * tri[0][2] + (1 - yAvg) * tri[1][2];
       inCycle = ((width * y) + x) * 4;
       if (inCycle >= 0 && inCycle < imgData.length) {
-        if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] < 0 - yAvg || zBuffer[inCycle / 4] == undefined)) {
+        if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] > 0 - yAvg || zBuffer[inCycle / 4] == undefined)) {
           zBuffer[inCycle / 4] = 0 - yAvg;
           for (let j = 0; j < 3; j++) {
             imgData[inCycle + j] = rgb[j];
@@ -91,15 +105,18 @@ function triangleBatchPixel(context, triangleArray, camera) {
       currentX2 = currentX1;
       for (let y = tri[2][1]; y > tri[1][1]; y--) {
         yAvg = (y - tri[1][1]) / (tri[2][1] - tri[1][1]);
+        if (tri[2][1] - tri[1][1] == 0) {
+          yAvg = 1;
+        }
         yAvg = yAvg * tri[2][2] + (1 - yAvg) * tri[1][2];
         if (is1) {
           for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
-            inForLoop(y, x)
+            inForLoop(y, x, sortedByX)
           }
         }
         else {
           for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
-            inForLoop(y, x)
+            inForLoop(y, x, sortedByX)
           }
         }
         if (y > height) {
@@ -120,16 +137,19 @@ function triangleBatchPixel(context, triangleArray, camera) {
       currentX1 = tri[0][0];
       currentX2 = currentX1;
       for (let y = tri[0][1]; y <= tri[1][1]; y++) {
-        yAvg = ( tri[1][1] - y) / (tri[1][1] - tri[0][1]);
+        yAvg = (tri[1][1] - y) / (tri[1][1] - tri[0][1]);
+        if (tri[1][1] - tri[1][1] == 0) {
+          yAvg = 1;
+        }
         yAvg = yAvg * tri[0][2] + (1 - yAvg) * tri[1][2];
         if (is1) {
           for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
-            inForLoop(y, x)
+            inForLoop(y, x, sortedByX)
           }
         }
         else {
           for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
-            inForLoop(y, x)
+            inForLoop(y, x, sortedByX)
           }
         }
         if (y < 0) {
