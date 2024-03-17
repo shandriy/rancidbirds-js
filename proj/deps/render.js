@@ -71,40 +71,29 @@ function triangleBatchPixel(context, triangleArray) {
       slope1 < slope2 ? is1 = true : is1 = false;
       let currentX1 = tri[0][0];
       let currentX2 = currentX1;
-      let inCycle, prevCycle;
+      let inCycle;
       for (let y = tri[0][1]; y <= tri[1][1]; y++) {
-        prevCycle = -1;
         if (is1) {
           for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
             inCycle = ((width * y) + x) * 4;
-            if (inCycle % (width * 4) == inCycle % (width * 4)) {
+            if (x % width == x && x >= 0) {
               for (let j = 0; j < 3; j++) {
                 imgData[inCycle + j] = rgb[j];
               }
               imgData[inCycle + 3] = 255;
             }
-            else {
-              break;
-            }
-            prevCycle = inCycle % (width * 4);
           }
-          prevCycle = -1;
         }
         else {
           for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
             inCycle = ((width * y) + x) * 4;
-            if (inCycle % (width * 4) == inCycle % (width * 4)) {
+            if (x % width == x && x >= 0) {
               for (let j = 0; j < 3; j++) {
                 imgData[inCycle + j] = rgb[j];
               }
               imgData[inCycle + 3] = 255;
             }
-            else {
-              break;
-            }
-            prevCycle = inCycle % (width * 4);
           }
-          prevCycle = -1;
         }
         currentX1 += slope1;
         currentX2 += slope2;
