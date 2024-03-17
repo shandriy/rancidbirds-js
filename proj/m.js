@@ -40,7 +40,7 @@ window.onload = function () {
   tempTag.innerHTML = "RANCID BIRDS";
   document.getElementsByTagName("head")[0].appendChild(tempTag);
   lc = 0;
-  let dependencies = ["asst/models/cube", "proj/deps/project", "proj/deps/render", "proj/deps/exec", "lang/-locket"];
+  let dependencies = ["asst/models/test", "proj/deps/project", "proj/deps/render", "proj/deps/exec", "lang/-locket"];
   let scriptTag;
   // loads scripts and checks until lc is more than a certain amount
   // lc is incremented every time a script is loaded, to make sure everything loads before the game loop starts
