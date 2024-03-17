@@ -6,7 +6,6 @@ Rancid-Birds: You are a bird bred in a massive lab by scientists trying to fuel 
 
 TODO :
 
-0. Add a Z-buffer
 1. Fix rendering of objects behind camera
 2. Project textures
 3. Create an FBX/COLLADA.dae converter (optional)
@@ -22,3 +21,4 @@ DONE :
 2. Basic painter's algorithm
 3. Implement a rotation matrix
 4. Create a keyboard and mouse input processor
+5. Add a Z-buffer
