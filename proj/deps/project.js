@@ -89,11 +89,11 @@ function scenifyTriangle(context, camera, objectArray) {
         xd = fetch.x + xt - camera.x;
         yd = fetch.y + yt - camera.y;
         zd = fetch.z + zt - camera.z;
-        zb = (xd * xd) + (yd * yd) + (zd * zd);
         xc = zd * camera.yawShiftS + xd * camera.yawShiftC;
         zc = zd * camera.yawShiftC - xd * camera.yawShiftS;
         xd = xc;
         zd = zc;
+        zb = (xd * xd) + (yd * yd) + (zd * zd);
         if (Math.pow(camera.renderDistance, 2) <= zb) bPush--;
         zd = camera.screenDistance / zd;
         xd *= zd;

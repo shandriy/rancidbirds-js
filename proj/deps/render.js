@@ -100,18 +100,19 @@ function triangleBatchPixel(context, triangleArray, camera) {
       avg = (((p[1][1] - p[2][1]) * (x - p[2][0])) + ((p[2][0] - p[1][0]) * (y - p[2][1])));
       avg /= pre;
       let w0 = avg;
-      let tempAvg = avg * p[0][2];
       avg = (((p[1][1] - p[2][1]) * (x - p[2][0])) + ((p[2][0] - p[1][0]) * (y - p[2][1])));
       avg /= pre;
-      tempAvg += avg * p[1][2];
-      tempAvg += (1 - w0 - avg) * p[2][2];
-      tempAvg /= 3;
+      let w1 = avg;
+      let w2 = (1 - w0 - w1);
+      let tempAvg = (w0 * p[0][2] + w1 * p[1][2] + w2 * p[2][2]) / 3
+      avg = tempAvg;
       inCycle = ((width * y) + x) * 4;
       if (inCycle >= 0 && inCycle < imgData.length) {
         if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] > avg || zBuffer[inCycle / 4] == undefined)) {
           zBuffer[inCycle / 4] = avg;
           for (let j = 0; j < 3; j++) {
-            imgData[inCycle + j] = rgb[j];
+            //imgData[inCycle + j] = rgb[j];
+            imgData[inCycle + j] = 255 - Math.floor(610 * (zBuffer[inCycle / 4] / 100));
           }
           imgData[inCycle + 3] = 255;
         }
