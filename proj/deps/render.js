@@ -79,24 +79,35 @@ function triangleBatchPixel(context, triangleArray) {
         if (is1) {
           for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
             inCycle = ((width * y) + x) * 4;
-            if (x % width == x && x >= 0) {
-              for (let j = 0; j < 3; j++) {
-                imgData[inCycle + j] = rgb[j];
+            if (inCycle >= 0 && inCycle < imgData.length)
+            {
+              if (x % width == x && x >= 0) {
+                for (let j = 0; j < 3; j++) {
+                  imgData[inCycle + j] = rgb[j];
+                }
+                imgData[inCycle + 3] = 255;
               }
-              imgData[inCycle + 3] = 255;
             }
           }
         }
         else {
           for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
             inCycle = ((width * y) + x) * 4;
-            if (x % width == x && x >= 0) {
-              for (let j = 0; j < 3; j++) {
-                imgData[inCycle + j] = rgb[j];
+            if (inCycle >= 0 && inCycle < imgData.length)
+            {
+              if (x % width == x && x >= 0) {
+                for (let j = 0; j < 3; j++) {
+                  imgData[inCycle + j] = rgb[j];
+                }
+                imgData[inCycle + 3] = 255;
               }
-              imgData[inCycle + 3] = 255;
             }
           }
+        }
+        if (y < 0) {
+          currentX1 += (0 - y - 1) * slope1;
+          currentX2 += (0 - y - 1) * slope2;
+          y = -1;
         }
         currentX1 += slope1;
         currentX2 += slope2;
@@ -114,31 +125,48 @@ function triangleBatchPixel(context, triangleArray) {
         if (is1) {
           for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
             inCycle = ((width * y) + x) * 4;
-            if (x % width == x && x >= 0) {
-              for (let j = 0; j < 3; j++) {
-                imgData[inCycle + j] = rgb[j];
+            if (inCycle >= 0 && inCycle < imgData.length)
+            {
+              if (x % width == x && x >= 0) {
+                for (let j = 0; j < 3; j++) {
+                  imgData[inCycle + j] = rgb[j];
+                }
+                imgData[inCycle + 3] = 255;
               }
-              imgData[inCycle + 3] = 255;
             }
           }
         }
         else {
           for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
             inCycle = ((width * y) + x) * 4;
-            if (x % width == x && x >= 0) {
-              for (let j = 0; j < 3; j++) {
-                imgData[inCycle + j] = rgb[j];
+            if (inCycle >= 0 && inCycle < imgData.length)
+            {
+              if (x % width == x && x >= 0) {
+                for (let j = 0; j < 3; j++) {
+                  imgData[inCycle + j] = rgb[j];
+                }
+                imgData[inCycle + 3] = 255;
               }
-              imgData[inCycle + 3] = 255;
             }
           }
+        }
+        if (y > height) {
+          currentX1 -= (y - height - 1) * slope1;
+          currentX2 -= (y - height - 1) * slope2;
+          y = height + 1;
         }
         currentX1 -= slope1;
         currentX2 -= slope2;
       }
+    }i
+    if (!(yIndexer[2][1] == yIndexer[1][1]))
+    {
+      triFillTop(yIndexer);
     }
-    triFillTop(yIndexer);
-    triFillBottom(yIndexer);
+    if (!(yIndexer[0][1] == yIndexer[1][1]))
+    {
+      triFillBottom(yIndexer);
+    }
     /*if (polyArray[i].length >= 4) {
       context.beginPath();
       context.moveTo(polyArray[i][1][0], polyArray[i][1][1]);
