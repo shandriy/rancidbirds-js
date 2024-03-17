@@ -80,7 +80,7 @@ bodyElement.addEventListener("click", async () => {
 function refreshFVSD() {
   /// FVSD: FoV Screen Distance
   /// changes projection distance based on FOV
-  camera.screenDistance = Math.round(1 / (Math.tan(camera.fov / 114.5915) / (window.innerWidth / 2)));
+  camera.screenDistance = Math.round(1 / (Math.tan(camera.fov / 114.5915) / (480 / 2)));
 }
 
 /// end

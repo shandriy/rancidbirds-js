@@ -69,51 +69,8 @@ function triangleBatchPixel(context, triangleArray) {
     yIndexer = yIndexer.sort(function (a, b) {
       return a[1] - b[1];
     });
-    function triFillBottom(tri) {
-      let slope1 = (tri[1][0] - tri[0][0]) / (tri[1][1] - tri[0][1]);
-      let slope2 = (tri[2][0] - tri[0][0]) / (tri[2][1] - tri[0][1]);
-      let is1 = false;
-      slope1 < slope2 ? is1 = true : is1 = false;
-      let currentX1 = tri[0][0];
-      let currentX2 = currentX1;
-      let inCycle;
-      for (let y = tri[0][1]; y <= tri[1][1]; y++) {
-        if (is1) {
-          for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
-            inCycle = ((width * y) + x) * 4;
-            if (inCycle >= 0 && inCycle < imgData.length) {
-              if (x % width == x && x >= 0) {
-                for (let j = 0; j < 3; j++) {
-                  imgData[inCycle + j] = rgb[j];
-                }
-                imgData[inCycle + 3] = 255;
-              }
-            }
-          }
-        }
-        else {
-          for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
-            inCycle = ((width * y) + x) * 4;
-            if (inCycle >= 0 && inCycle < imgData.length) {
-              if (x % width == x && x >= 0) {
-                for (let j = 0; j < 3; j++) {
-                  imgData[inCycle + j] = rgb[j];
-                }
-                imgData[inCycle + 3] = 255;
-              }
-            }
-          }
-        }
-        if (y < 0) {
-          currentX1 += (0 - y - 1) * slope1;
-          currentX2 += (0 - y - 1) * slope2;
-          y = -1;
-        }
-        currentX1 += slope1;
-        currentX2 += slope2;
-      }
-    }
-    function triFillTop(tri) {
+    if (!(yIndexer[2][1] == yIndexer[1][1])) {
+      let tri = yIndexer;
       let slope1 = (tri[2][0] - tri[0][0]) / (tri[2][1] - tri[0][1]);
       let slope2 = (tri[2][0] - tri[1][0]) / (tri[2][1] - tri[1][1]);
       let is1 = false;
@@ -156,12 +113,51 @@ function triangleBatchPixel(context, triangleArray) {
         currentX1 -= slope1;
         currentX2 -= slope2;
       }
-    } i
-    if (!(yIndexer[2][1] == yIndexer[1][1])) {
-      triFillTop(yIndexer);
     }
     if (!(yIndexer[0][1] == yIndexer[1][1])) {
-      triFillBottom(yIndexer);
+      let tri = yIndexer;
+      let slope1 = (tri[1][0] - tri[0][0]) / (tri[1][1] - tri[0][1]);
+      let slope2 = (tri[2][0] - tri[0][0]) / (tri[2][1] - tri[0][1]);
+      let is1 = false;
+      slope1 < slope2 ? is1 = true : is1 = false;
+      let currentX1 = tri[0][0];
+      let currentX2 = currentX1;
+      let inCycle;
+      for (let y = tri[0][1]; y <= tri[1][1]; y++) {
+        if (is1) {
+          for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
+            inCycle = ((width * y) + x) * 4;
+            if (inCycle >= 0 && inCycle < imgData.length) {
+              if (x % width == x && x >= 0) {
+                for (let j = 0; j < 3; j++) {
+                  imgData[inCycle + j] = rgb[j];
+                }
+                imgData[inCycle + 3] = 255;
+              }
+            }
+          }
+        }
+        else {
+          for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
+            inCycle = ((width * y) + x) * 4;
+            if (inCycle >= 0 && inCycle < imgData.length) {
+              if (x % width == x && x >= 0) {
+                for (let j = 0; j < 3; j++) {
+                  imgData[inCycle + j] = rgb[j];
+                }
+                imgData[inCycle + 3] = 255;
+              }
+            }
+          }
+        }
+        if (y < 0) {
+          currentX1 += (0 - y - 1) * slope1;
+          currentX2 += (0 - y - 1) * slope2;
+          y = -1;
+        }
+        currentX1 += slope1;
+        currentX2 += slope2;
+      }
     }
     /*if (polyArray[i].length >= 4) {
       context.beginPath();
