@@ -8,7 +8,7 @@ function draw(context, tBatch) {
   context.rect(0, 0, context.canvas.width, context.canvas.height);
   context.fill();
   //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
-  triangleBatchPixel(context, tBatch);
+  triangleBatchPixel(context, tBatch, camera);
   //camera.z += frame.delta / 30;
   //camera.y += frame.delta / 120;
   //object[0][3].z -= frame.delta / 90;
@@ -46,13 +46,12 @@ function polyBatch(context, polyArray) {
   }
 }
 
-function triangleBatchPixel(context, triangleArray) {
-  //let width = context.canvas.width;
-  //let height = context.canvas.height;
-  let width = 480;
-  let height = 270;
+function triangleBatchPixel(context, triangleArray, camera) {
+  let width = context.canvas.width;
+  let height = context.canvas.height;
   let imgData = new Uint8ClampedArray(height * width * 4);
-  let rgb, yIndexer;
+  let zBuffer = new Array(height * width);
+  let rgb, yIndexer, xAvg, yAvg;
   for (let i = 0; i < triangleArray.length; i++) {
     rgb = [];
     rgb.length = 0;
@@ -69,40 +68,38 @@ function triangleBatchPixel(context, triangleArray) {
     yIndexer = yIndexer.sort(function (a, b) {
       return a[1] - b[1];
     });
+    let tri, slope1, slope2, is1, currentX1, currentX2, inCycle;
+    function inForLoop(y, x) {
+      inCycle = ((width * y) + x) * 4;
+      if (inCycle >= 0 && inCycle < imgData.length) {
+        if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] < 0 - yAvg || zBuffer[inCycle / 4] == undefined)) {
+          zBuffer[inCycle / 4] = 0 - yAvg;
+          for (let j = 0; j < 3; j++) {
+            imgData[inCycle + j] = rgb[j];
+          }
+          imgData[inCycle + 3] = 255;
+        }
+      }
+    }
     if (!(yIndexer[2][1] == yIndexer[1][1])) {
-      let tri = yIndexer;
-      let slope1 = (tri[2][0] - tri[0][0]) / (tri[2][1] - tri[0][1]);
-      let slope2 = (tri[2][0] - tri[1][0]) / (tri[2][1] - tri[1][1]);
-      let is1 = false;
+      tri = yIndexer;
+      slope1 = (tri[2][0] - tri[0][0]) / (tri[2][1] - tri[0][1]);
+      slope2 = (tri[2][0] - tri[1][0]) / (tri[2][1] - tri[1][1]);
+      is1 = false;
       slope1 < slope2 ? is1 = false : is1 = true;
-      let currentX1 = tri[2][0];
-      let currentX2 = currentX1;
-      let inCycle;
+      currentX1 = tri[2][0];
+      currentX2 = currentX1;
       for (let y = tri[2][1]; y > tri[1][1]; y--) {
+        yAvg = (y - tri[1][1]) / (tri[2][1] - tri[1][1]);
+        yAvg = yAvg * tri[2][2] + (1 - yAvg) * tri[1][2];
         if (is1) {
           for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
-            inCycle = ((width * y) + x) * 4;
-            if (inCycle >= 0 && inCycle < imgData.length) {
-              if (x % width == x && x >= 0) {
-                for (let j = 0; j < 3; j++) {
-                  imgData[inCycle + j] = rgb[j];
-                }
-                imgData[inCycle + 3] = 255;
-              }
-            }
+            inForLoop(y, x)
           }
         }
         else {
           for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
-            inCycle = ((width * y) + x) * 4;
-            if (inCycle >= 0 && inCycle < imgData.length) {
-              if (x % width == x && x >= 0) {
-                for (let j = 0; j < 3; j++) {
-                  imgData[inCycle + j] = rgb[j];
-                }
-                imgData[inCycle + 3] = 255;
-              }
-            }
+            inForLoop(y, x)
           }
         }
         if (y > height) {
@@ -115,39 +112,24 @@ function triangleBatchPixel(context, triangleArray) {
       }
     }
     if (!(yIndexer[0][1] == yIndexer[1][1])) {
-      let tri = yIndexer;
-      let slope1 = (tri[1][0] - tri[0][0]) / (tri[1][1] - tri[0][1]);
-      let slope2 = (tri[2][0] - tri[0][0]) / (tri[2][1] - tri[0][1]);
-      let is1 = false;
+      tri = yIndexer;
+      slope1 = (tri[1][0] - tri[0][0]) / (tri[1][1] - tri[0][1]);
+      slope2 = (tri[2][0] - tri[0][0]) / (tri[2][1] - tri[0][1]);
+      is1 = false;
       slope1 < slope2 ? is1 = true : is1 = false;
-      let currentX1 = tri[0][0];
-      let currentX2 = currentX1;
-      let inCycle;
+      currentX1 = tri[0][0];
+      currentX2 = currentX1;
       for (let y = tri[0][1]; y <= tri[1][1]; y++) {
+        yAvg = ( tri[1][1] - y) / (tri[1][1] - tri[0][1]);
+        yAvg = yAvg * tri[0][2] + (1 - yAvg) * tri[1][2];
         if (is1) {
           for (let x = Math.floor(currentX1); x <= Math.ceil(currentX2); x++) {
-            inCycle = ((width * y) + x) * 4;
-            if (inCycle >= 0 && inCycle < imgData.length) {
-              if (x % width == x && x >= 0) {
-                for (let j = 0; j < 3; j++) {
-                  imgData[inCycle + j] = rgb[j];
-                }
-                imgData[inCycle + 3] = 255;
-              }
-            }
+            inForLoop(y, x)
           }
         }
         else {
           for (let x = Math.floor(currentX2); x <= Math.ceil(currentX1); x++) {
-            inCycle = ((width * y) + x) * 4;
-            if (inCycle >= 0 && inCycle < imgData.length) {
-              if (x % width == x && x >= 0) {
-                for (let j = 0; j < 3; j++) {
-                  imgData[inCycle + j] = rgb[j];
-                }
-                imgData[inCycle + 3] = 255;
-              }
-            }
+            inForLoop(y, x)
           }
         }
         if (y < 0) {
