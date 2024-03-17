@@ -103,7 +103,7 @@ function scenifyTriangle(context, camera, objectArray) {
           yd *= -1;
           xd *= -1;
         }
-        push.push([Math.floor(width + xd), Math.floor(height - yd), zb]);
+        push.push([Math.floor(width + xd), Math.floor(height - yd), Math.sqrt(zb), zc]);
       }
       for (let j = 1; j < 4; j++) {
         tPush = push[j];
