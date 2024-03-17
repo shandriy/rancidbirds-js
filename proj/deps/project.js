@@ -70,10 +70,10 @@ function scenify(context, camera, objectArray) {
 function scenifyTriangle(context, camera, objectArray) {
   let xd, yd, zd, xt, yt, zt, zb, xc, zc;
   let fetch, counter, object;
-  let push, bPush, cPush, tPush, vPush, zPush;
+  let push, bPush, cPush, tPush;
   let tBatch = [];
-  const width = 240;
-  const height = 135;
+  const width = context.canvas.width / 2;
+  const height = context.canvas.height / 2;
   for (let c = 0; c < objectArray.length; c++) {
     object = objectArray[c].transform;
     xt = object.x;
@@ -117,19 +117,19 @@ function scenifyTriangle(context, camera, objectArray) {
           break;
         }
       }
-      vPush = 0;
+      /*vPush = 0;
       zPush = 0;
       for (let j = 1; j < 4; j++) {
         vPush += push[j][2];
         zPush++;
       }
-      push[1][2] = vPush / zPush;
+      push[1][2] = vPush / zPush;*/
       if (bPush > 0 && cPush > 0) tBatch.push(push);
     }
   }
-  tBatch = tBatch.sort(function (a, b) {
+  /*tBatch = tBatch.sort(function (a, b) {
     return b[1][2] - a[1][2];
-  });
+  });*/
   return tBatch;
 }
 
