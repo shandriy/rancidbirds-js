@@ -127,9 +127,9 @@ function scenifyTriangle(context, camera, objectArray) {
       if (bPush > 0 && cPush > 0) tBatch.push(push);
     }
   }
-  /*tBatch = tBatch.sort(function (a, b) {
+  tBatch = tBatch.sort(function (a, b) {
     return b[1][2] - a[1][2];
-  });*/
+  });
   return tBatch;
 }
 
