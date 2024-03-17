@@ -26,8 +26,8 @@ let object = [["#ffaa00", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, {
 
 window.addEventListener("resize", function () {
   let canvas = document.getElementById("canvas");
-//  canvas.height = window.innerHeight;
-//  canvas.width = window.innerWidth;
+  //  canvas.height = window.innerHeight;
+  //  canvas.width = window.innerWidth;
   canvas.height = 270;
   canvas.width = 480;
   refreshFVSD();
