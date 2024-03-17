@@ -52,10 +52,13 @@ function triangleBatchPixel(context, triangleArray) {
   let imgData = new Uint8ClampedArray(height * width * 4);
   let rgb, yIndexer;
   for (let i = 0; i < triangleArray.length; i++) {
-    rgb = triangleArray[i][0].split('').map((e, i, a) => a[i] + (a[i + 1] ?? '')).slice(0, -1);
+    rgb = [];
+    rgb.length = 0;
+    rgb = triangleArray[i][0].substring(1).split(/(..)/g).filter(s => s);
     for (let j = 0; j < 3; j++) {
       rgb[j] = parseInt(rgb[j], 16);
     }
+    rgb.length = 3;
     rgb.push(255);
     yIndexer = [];
     for (let j = 1; j < 4; j++) {
@@ -135,6 +138,7 @@ function triangleBatchPixel(context, triangleArray) {
       }
     }
     triFillTop(yIndexer);
+    triFillBottom(yIndexer);
     /*if (polyArray[i].length >= 4) {
       context.beginPath();
       context.moveTo(polyArray[i][1][0], polyArray[i][1][1]);
