@@ -17,7 +17,7 @@ let frame = {
 let camera = {
   x: 0, y: 0, z: -20,
   yaw: 0, pitch: 0, roll: 0, yawShiftS: 0, yawShiftC: 1,
-  fov: 90, screenDistance: window.innerWidth / 2,
+  fov: 90, screenDistance: 240, // window.innerWidth / 2
   renderDistance: 300
 }
 
@@ -26,14 +26,16 @@ let object = [["#ffaa00", { x: -10, y: -10, z: 10 }, { x: 10, y: -10, z: 10 }, {
 
 window.addEventListener("resize", function () {
   let canvas = document.getElementById("canvas");
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
+//  canvas.height = window.innerHeight;
+//  canvas.width = window.innerWidth;
+  canvas.height = 270;
+  canvas.width = 480;
   refreshFVSD();
 })
 
 let lc;
 let divStyle = "background-color:black;color:white;position:fixed;top:70vh;right:10vw;width:80vw;"
-let normalStyle = "overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges;";
+let normalStyle = "overflow:hidden;margin:0;padding:0;image-rendering:pixelated;image-rendering:crisp-edges;height:100vh;width:100vw;";
 // init
 window.onload = function () {
   let tempTag = document.createElement("title");
@@ -60,8 +62,10 @@ window.onload = function () {
       tempTag.innerHTML = `html,body,canvas{${normalStyle}}`;
       document.getElementsByTagName("head")[0].appendChild(tempTag);
       let canvas = document.getElementById("canvas");
-      canvas.height = window.innerHeight;
-      canvas.width = window.innerWidth;
+      //canvas.height = window.innerHeight;
+      //canvas.width = window.innerWidth;
+      canvas.height = 270;
+      canvas.width = 480;
       let context = canvas.getContext("2d", { alpha: false });
 
       // oh boy the gameloop. find run in deps/exec.js

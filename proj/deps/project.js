@@ -72,8 +72,8 @@ function scenifyTriangle(context, camera, objectArray) {
   let fetch, counter, object;
   let push, bPush, cPush, tPush, vPush, zPush;
   let tBatch = [];
-  const width = context.canvas.width / 2;
-  const height = context.canvas.height / 2;
+  const width = 240;
+  const height = 135;
   for (let c = 0; c < objectArray.length; c++) {
     object = objectArray[c].transform;
     xt = object.x;

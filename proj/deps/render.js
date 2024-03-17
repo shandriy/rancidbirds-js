@@ -47,8 +47,10 @@ function polyBatch(context, polyArray) {
 }
 
 function triangleBatchPixel(context, triangleArray) {
-  let width = context.canvas.width;
-  let height = context.canvas.height;
+  //let width = context.canvas.width;
+  //let height = context.canvas.height;
+  let width = 480;
+  let height = 270;
   let imgData = new Uint8ClampedArray(height * width * 4);
   let rgb, yIndexer;
   for (let i = 0; i < triangleArray.length; i++) {
