@@ -23,11 +23,11 @@ function scenify(context, camera, objectArray) {
         xd = fetch.x + xt - camera.x;
         yd = fetch.y + yt - camera.y;
         zd = fetch.z + zt - camera.z;
-        zb = (xd * xd) + (yd * yd) + (zd * zd);
         xc = zd * camera.yawShiftS + xd * camera.yawShiftC;
         zc = zd * camera.yawShiftC - xd * camera.yawShiftS;
         xd = xc;
         zd = zc;
+        zb = Math.pow(xd, 2) + Math.pow(yd, 2) + Math.pow(zd, 2);
         if (Math.pow(camera.renderDistance, 2) <= zb) bPush--;
         zd = camera.screenDistance / zd;
         xd *= zd;
@@ -37,7 +37,7 @@ function scenify(context, camera, objectArray) {
           yd *= -1;
           xd *= -1;
         }
-        push.push([Math.floor(width + xd), Math.floor(height - yd), zb]);
+        push.push([Math.floor(width + xd), Math.floor(height - yd), Math.sqrt(zb)]);
       }
       for (let j = 1; j < object[i].length; j++) {
         tPush = push[j];
