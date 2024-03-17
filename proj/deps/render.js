@@ -96,14 +96,14 @@ function triangleBatchPixel(context, triangleArray, camera) {
       }
     }*/
     function inForLoop(y, x, p) {
-      let pre = (((p[1][1] - p[2][1]) * (p[0][0] - p[2][0])) + ((p[2][0] - p[1][0]) * (p[0][1] - p[2][1])));
-      avg = (((p[1][1] - p[2][1]) * (x - p[2][0])) + ((p[2][0] - p[1][0]) * (y - p[2][1])));
+      let pre = (p[0][0] * (p[2][1] - p[1][1]) + p[1][0] * (p[0][1] - p[2][1]) + p[2][0] * (p[1][1] - p[0][1]));
+      avg = x * (p[2][1] - p[1][1]) + p[1][0] * (y - p[2][1]) + p[2][0] * (p[1][1] - y);
       avg /= pre;
       let w0 = avg;
-      avg = (((p[1][1] - p[2][1]) * (x - p[2][0])) + ((p[2][0] - p[1][0]) * (y - p[2][1])));
+      avg = -(x * (p[2][1] - p[0][1]) + p[0][0] * (y - p[2][1]) + p[2][0] * (p[0][1] - y));
       avg /= pre;
       let w1 = avg;
-      let w2 = (1 - w0 - w1);
+      let w2 = 1 - w0 - w1;
       let tempAvg = (w0 * p[0][2] + w1 * p[1][2] + w2 * p[2][2]) / 3
       avg = tempAvg;
       inCycle = ((width * y) + x) * 4;
@@ -111,8 +111,8 @@ function triangleBatchPixel(context, triangleArray, camera) {
         if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] > avg || zBuffer[inCycle / 4] == undefined)) {
           zBuffer[inCycle / 4] = avg;
           for (let j = 0; j < 3; j++) {
-            //imgData[inCycle + j] = rgb[j];
-            imgData[inCycle + j] = 255 - Math.floor(610 * (zBuffer[inCycle / 4] / 100));
+            imgData[inCycle + j] = rgb[j];
+            //imgData[inCycle + j] = 255 - Math.floor(610 * (zBuffer[inCycle / 4] / 100));
           }
           imgData[inCycle + 3] = 255;
         }
