@@ -37,7 +37,7 @@ function scenify(context, camera, objectArray) {
           yd *= -1;
           xd *= -1;
         }
-        push.push([Math.floor(width + xd), Math.floor(height - yd), Math.sqrt(zb)]);
+        push.push([Math.round(width + xd), Math.round(height - yd), Math.sqrt(zb)]);
       }
       for (let j = 1; j < object[i].length; j++) {
         tPush = push[j];
