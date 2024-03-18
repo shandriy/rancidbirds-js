@@ -51,6 +51,10 @@ function triangleBatchPixel(context, triangleArray, camera) {
   let height = context.canvas.height;
   let imgData = new Uint8ClampedArray(height * width * 4);
   let zBuffer = new Array(height * width);
+  for (let i = 0; i < imgData.length; i++)
+  {
+    imgData[i] = 255;
+  }
   let rgb, yIndexer, avg;
   for (let i = 0; i < triangleArray.length; i++) {
     rgb = [];
