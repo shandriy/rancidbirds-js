@@ -199,6 +199,7 @@ function triangleBatchPixel(context, triangleArray, camera) {
     }*/
   }
   context.putImageData(new ImageData(imgData, width), 0, 0);
+  document.getElementById("div").innerHTML = 1000 / frame.delta;
 }
 
 /// end

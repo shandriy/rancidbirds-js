@@ -57,7 +57,7 @@ window.onload = function () {
     } else {
       setLangPrefs();
       // fills HTML
-      document.body.innerHTML = `<canvas id="canvas"></canvas><div style="${divStyle}"></div>`;
+      document.body.innerHTML = `<canvas id="canvas"></canvas><div style="${divStyle}" id="div"></div>`;
       tempTag = document.createElement("style");
       tempTag.innerHTML = `html,body,canvas{${normalStyle}}`;
       document.getElementsByTagName("head")[0].appendChild(tempTag);

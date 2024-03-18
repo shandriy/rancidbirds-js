@@ -15,7 +15,7 @@ function frameR(context) {
 
   // find draw in render.js, and scenify in project.js (project as in projection)
   draw(context, scenifyTriangle(context, camera, [{ model: cube, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } },
-  { model: cube2, transform: { x: 25, y: 0, z: 5, yaw: 0, pitch: 0, roll: 0 } }]));
+                                                  { model: cube2, transform: { x: 10, y: 5, z: 5, yaw: 0, pitch: 0, roll: 0 } }]));
 }
 
 
