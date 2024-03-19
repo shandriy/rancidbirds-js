@@ -28,7 +28,7 @@ window.addEventListener("resize", function () {
   let canvas = document.getElementById("canvas");
   //  canvas.height = window.innerHeight;
   //  canvas.width = window.innerWidth;
-  canvas.height = 200;
+  canvas.height = Math.round((window.innerHeight / window.innerWidth) * 320);
   canvas.width = 320;
   refreshFVSD();
 })
@@ -64,7 +64,7 @@ window.onload = function () {
       let canvas = document.getElementById("canvas");
       //canvas.height = window.innerHeight;
       //canvas.width = window.innerWidth;
-      canvas.height = 200;
+      canvas.height = Math.round((window.innerHeight / window.innerWidth) * 320);
       canvas.width = 320;
       let context = canvas.getContext("2d", { alpha: false });
 
