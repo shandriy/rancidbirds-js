@@ -17,7 +17,7 @@ let frame = {
 let camera = {
   x: 0, y: 0, z: -20,
   yaw: 0, pitch: 0, roll: 0, yawShiftS: 0, yawShiftC: 1,
-  fov: 90, screenDistance: 240, // window.innerWidth / 2
+  fov: 90, screenDistance: 160, // window.innerWidth / 2
   renderDistance: 300
 }
 
@@ -28,8 +28,8 @@ window.addEventListener("resize", function () {
   let canvas = document.getElementById("canvas");
   //  canvas.height = window.innerHeight;
   //  canvas.width = window.innerWidth;
-  canvas.height = 270;
-  canvas.width = 480;
+  canvas.height = 200;
+  canvas.width = 320;
   refreshFVSD();
 })
 
@@ -64,8 +64,8 @@ window.onload = function () {
       let canvas = document.getElementById("canvas");
       //canvas.height = window.innerHeight;
       //canvas.width = window.innerWidth;
-      canvas.height = 270;
-      canvas.width = 480;
+      canvas.height = 200;
+      canvas.width = 320;
       let context = canvas.getContext("2d", { alpha: false });
 
       // oh boy the gameloop. find run in deps/exec.js

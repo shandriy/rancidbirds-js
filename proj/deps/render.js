@@ -8,7 +8,7 @@ function draw(context, tBatch) {
   context.rect(0, 0, context.canvas.width, context.canvas.height);
   context.fill();
   //polyBatch(context, [["#ffaa00", [75, 50], [100, 75], [100, 25], [200, 0]], ["#ffaadd", [100, 25], [100, 75], [150, 25]]]);
-  triangleBatchPixel(context, tBatch, camera);
+  triangleBatchPixel(context, tBatch);
   //camera.z += frame.delta / 30;
   //camera.y += frame.delta / 120;
   //object[0][3].z -= frame.delta / 90;
@@ -46,16 +46,16 @@ function polyBatch(context, polyArray) {
   }
 }
 
-function triangleBatchPixel(context, triangleArray, camera) {
-  let width = context.canvas.width;
-  let height = context.canvas.height;
-  let imgData = new Uint8ClampedArray(height * width * 4);
-  let zBuffer = new Array(height * width);
+function triangleBatchPixel(context, triangleArray) {
+  const width = context.canvas.width;
+  const height = context.canvas.height;
+  const imgData = new Uint8ClampedArray(height * width * 4);
+  const zBuffer = new Array(height * width);
   for (let i = 0; i < imgData.length; i++) {
     imgData[i] = 0;
   }
   let rgb, yIndexer, avg;
-  let len = triangleArray.length;
+  const len = triangleArray.length;
   for (let i = 0; i < len; i++) {
     yIndexer = [];
     //sortedByX = [];
@@ -73,20 +73,22 @@ function triangleBatchPixel(context, triangleArray, camera) {
     });*/
     let tri, slope1, slope2, is1, currentX1, currentX2, inCycle;
     function inForLoop(y, x, p) {
-      let pre = (p[0][0] * (p[2][1] - p[1][1]) + p[1][0] * (p[0][1] - p[2][1]) + p[2][0] * (p[1][1] - p[0][1]));
-      avg = x * (p[2][1] - p[1][1]) + p[1][0] * (y - p[2][1]) + p[2][0] * (p[1][1] - y);
+      const pC0 = p[2][1] - p[1][1];
+      const pC1 = y - p[2][1];
+      const pre = (p[0][0] * pC0 + p[1][0] * (p[0][1] - p[2][1]) + p[2][0] * (p[1][1] - p[0][1]));
+      avg = x * pC0 + p[1][0] * (pC1) + p[2][0] * (p[1][1] - y);
       avg /= pre;
-      let w0 = avg;
-      avg = -(x * (p[2][1] - p[0][1]) + p[0][0] * (y - p[2][1]) + p[2][0] * (p[0][1] - y));
+      const w0 = avg;
+      avg = -(x * (p[2][1] - p[0][1]) + p[0][0] * (pC1) + p[2][0] * (p[0][1] - y));
       avg /= pre;
-      let w1 = avg;
-      let w2 = 1 - w0 - w1;
-      let tempAvg = (w0 * p[0][2] + w1 * p[1][2] + w2 * p[2][2]) / 3
-      avg = tempAvg;
-      inCycle = ((width * y) + x) * 4;
-      if (inCycle >= 0 && inCycle < imgData.length) {
-        if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] > avg || zBuffer[inCycle / 4] == undefined)) {
-          zBuffer[inCycle / 4] = avg;
+      const w1 = avg;
+      const w2 = 1 - w0 - w1;
+      avg = (w0 * p[0][2] + w1 * p[1][2] + w2 * p[2][2]) / 3
+      inCycle = (width * y) + x;
+      const nLen = height * width;
+      if (inCycle >= 0 && inCycle < nLen) {
+        if (x % width == x && x >= 0 && (zBuffer[inCycle] > avg || zBuffer[inCycle] == undefined)) {
+          zBuffer[inCycle] = avg;
         }
       }
     }
@@ -189,34 +191,26 @@ function triangleBatchPixel(context, triangleArray, camera) {
       return b[0] - a[0];
     });*/
     let tri, slope1, slope2, is1, currentX1, currentX2, inCycle;
-    function inForLoop(y, x, p, colorN) {
-      let pre = (p[0][0] * (p[2][1] - p[1][1]) + p[1][0] * (p[0][1] - p[2][1]) + p[2][0] * (p[1][1] - p[0][1]));
-      avg = x * (p[2][1] - p[1][1]) + p[1][0] * (y - p[2][1]) + p[2][0] * (p[1][1] - y);
+    function inForLoop(y, x, p) {
+      const pC0 = p[2][1] - p[1][1];
+      const pC1 = y - p[2][1];
+      const pre = (p[0][0] * pC0 + p[1][0] * (p[0][1] - p[2][1]) + p[2][0] * (p[1][1] - p[0][1]));
+      avg = x * pC0 + p[1][0] * (pC1) + p[2][0] * (p[1][1] - y);
       avg /= pre;
-      let w0 = avg;
-      avg = -(x * (p[2][1] - p[0][1]) + p[0][0] * (y - p[2][1]) + p[2][0] * (p[0][1] - y));
+      const w0 = avg;
+      avg = -(x * (p[2][1] - p[0][1]) + p[0][0] * (pC1) + p[2][0] * (p[0][1] - y));
       avg /= pre;
-      let w1 = avg;
-      let w2 = 1 - w0 - w1;
-      let tempAvg = (w0 * p[0][2] + w1 * p[1][2] + w2 * p[2][2]) / 3
-      avg = tempAvg;
+      const w1 = avg;
+      const w2 = 1 - w0 - w1;
+      avg = (w0 * p[0][2] + w1 * p[1][2] + w2 * p[2][2]) / 3
       inCycle = ((width * y) + x) * 4;
-      if (colorN) {
-        if (inCycle >= 0 && inCycle < imgData.length) {
-          if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] == avg)) {
-            for (let j = 0; j < 3; j++) {
-              imgData[inCycle + j] = rgb[j];
-              //imgData[inCycle + j] = 255 - Math.floor(610 * (zBuffer[inCycle / 4] / 100));
-            }
-            imgData[inCycle + 3] = 255;
+      const nLen = height * width * 4;
+      if (inCycle >= 0 && inCycle < nLen) {
+        if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] == avg)) {
+          for (let j = 0; j < 3; j++) {
+            imgData[inCycle + j] = rgb[j];
           }
-        }
-      }
-      else {
-        if (inCycle >= 0 && inCycle < imgData.length) {
-          if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] > avg || zBuffer[inCycle / 4] == undefined)) {
-            zBuffer[inCycle / 4] = avg;
-          }
+          imgData[inCycle + 3] = 255;
         }
       }
     }
@@ -236,12 +230,12 @@ function triangleBatchPixel(context, triangleArray, camera) {
         yAvg = yAvg * tri[2][2] + (1 - yAvg) * tri[1][2];*/
         if (is1) {
           for (let x = Math.round(currentX1); x <= Math.round(currentX2); x++) {
-            inForLoop(y, x, yIndexer, true)
+            inForLoop(y, x, yIndexer)
           }
         }
         else {
           for (let x = Math.round(currentX2); x <= Math.round(currentX1); x++) {
-            inForLoop(y, x, yIndexer, true)
+            inForLoop(y, x, yIndexer)
           }
         }
         if (y > height) {
@@ -269,12 +263,12 @@ function triangleBatchPixel(context, triangleArray, camera) {
         yAvg = yAvg * tri[0][2] + (1 - yAvg) * tri[1][2];*/
         if (is1) {
           for (let x = Math.round(currentX1); x <= Math.round(currentX2); x++) {
-            inForLoop(y, x, yIndexer, true)
+            inForLoop(y, x, yIndexer)
           }
         }
         else {
           for (let x = Math.round(currentX2); x <= Math.round(currentX1); x++) {
-            inForLoop(y, x, yIndexer, true)
+            inForLoop(y, x, yIndexer)
           }
         }
         if (y < 0) {
