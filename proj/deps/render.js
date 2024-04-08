@@ -207,9 +207,9 @@ function triangleBatchPixel(context, triangleArray) {
       const nLen = height * width * 4;
       if (inCycle >= 0 && inCycle < nLen) {
         if (x % width == x && x >= 0 && (zBuffer[inCycle / 4] == avg)) {
-          for (let j = 0; j < 3; j++) {
-            imgData[inCycle + j] = rgb[j];
-          }
+          imgData[inCycle] = rgb[0];
+          imgData[inCycle + 1] = rgb[1];
+          imgData[inCycle + 2] = rgb[2];
           imgData[inCycle + 3] = 255;
         }
       }
