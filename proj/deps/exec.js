@@ -15,7 +15,16 @@ function frameR(context) {
 
   // find draw in render.js, and scenify in project.js (project as in projection)
   draw(context, scenifyTriangle(context, camera, [{ model: cube, transform: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, roll: 0 } },
-                                                  { model: cube2, transform: { x: 10, y: 5, z: 5, yaw: 0, pitch: 0, roll: 0 } }]));
+                                                  { model: cube2, transform: { x: 10, y: 5, z: 5, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 20, y: 5, z: 5, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 10, y: 0, z: 5, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 10, y: 10, z: 5, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 10, y: 20, z: 5, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 30, y: -10, z: 5, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 10, y: -20, z: 5, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 0, y: 5, z: 20, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 10, y: 5, z: -10, yaw: 0, pitch: 0, roll: 0 } },
+                                                  { model: cube2, transform: { x: 0, y: -5, z: 30, yaw: 0, pitch: 0, roll: 0 } }]));
 }
 
 
